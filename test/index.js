@@ -1,14 +1,43 @@
-var babel = require('babel-core');
+var test = require('tape');
 
-var code = [
-  'var c = a?.b?.c;',
-  'a?.b?.c?(d, e);',
-  'a.b?(c, d);',
-  'a.b?();',
-  'var d = a ? b : c;'
-].join('\n');
-var result = babel.transform(code, {
-  plugins: ['../src']
+test('safe accessor for defined props', (t) => {
+  t.plan(1);
+  var a = { b: { c: 123 } };
+
+  t.strictEqual(a?.b?.c, 123);
 });
 
-console.log(result.code);
+test('safe accessor for undefined props', (t) => {
+  t.plan(1);
+  var b = {};
+
+  t.strictEqual(b?.c?.d, undefined);
+});
+
+test('call for defined method', (t) => {
+  t.plan(1);
+  var c = { d: { e(foo, bar) { return foo + bar } } };
+
+  t.strictEqual(c?.d?.e(1, 23), 24);
+});
+
+test('call for null method', (t) => {
+  t.plan(1);
+  var d = { e: null };
+
+  t.strictEqual(d?.e?.f(), null);
+});
+
+test('safe call for undefined method', (t) => {
+  t.plan(1);
+  var b = {};
+
+  t.strictEqual(b.c?(), undefined);
+});
+
+test('safe call for defined method', (t) => {
+  t.plan(1);
+  var c = { d: { e(foo, bar) { return foo + bar } } };
+
+  t.strictEqual(c?.d?.e?(1, 23), 24);
+});
