@@ -4,8 +4,8 @@ require('./patch-babylon');
 var template = require('babel-template');
 
 var buildReference = template('OBJECT == null ? OBJECT : OBJECT.PROPERTY');
-var buildMethodCall = template('OBJECT == null ? OBJECT : OBJECT.METHOD()');
-var buildCall = template('CALLEE == null ? CALLEE : CALLEE()');
+var buildMethodCall = template('OBJECT == null ? OBJECT : OBJECT.METHOD(ARGUMENTS)');
+var buildCall = template('CALLEE == null ? CALLEE : CALLEE(ARGUMENTS)');
 
 module.exports = function (t) {
   var types = t.types;
@@ -23,14 +23,16 @@ module.exports = function (t) {
         if (callee.type === 'SafeMemberExpression') {
           var safeMethodCall = buildMethodCall({
             OBJECT: callee.object,
-            METHOD: callee.property
+            METHOD: callee.property,
+            ARGUMENTS: path.node.arguments
           });
           path.replaceWith(safeMethodCall);
         }
       },
       SafeCallExpression(path) {
         var safeCall = buildCall({
-          CALLEE: path.node.callee
+          CALLEE: path.node.callee,
+          ARGUMENTS: path.node.arguments
         });
         path.replaceWith(safeCall);
       }
