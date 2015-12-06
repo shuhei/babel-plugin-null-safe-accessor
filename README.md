@@ -6,14 +6,14 @@ Before:
 
 ```js
 var b = a?.b;
-a.b();
+a.b?(c);
 ```
 
 After:
 
 ```js
 var b = a == null ? a : a.b;
-a == null ? a : a.b();
+a.b == null ? a.b : a.b(c);
 ```
 
 ## Installation
