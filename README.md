@@ -6,6 +6,8 @@
 
 A Babel plugin to provide null safe accessor syntax like Groovy's.
 
+This plugin requires **`npm@3`'s flattened `node_modules`** because of monkey-patching to babel's dependencies.
+
 Before:
 
 ```js
