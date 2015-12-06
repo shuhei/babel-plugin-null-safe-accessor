@@ -6,6 +6,7 @@
   "scripts": {
     "test": "node test/index.js"
   },
+  "repository": "shuhei/babel-plugin-null-safe-accessor",
   "author": "Shuhei Kagawa <shuhei.kagawa@gmail.com>",
   "license": "ISC",
   "devDependencies": {
