@@ -5,6 +5,7 @@ var template = require('babel-template');
 
 var buildReference = template('OBJECT == null ? OBJECT : OBJECT.PROPERTY');
 var buildMethodCall = template('OBJECT == null ? OBJECT : OBJECT.METHOD()');
+var buildCall = template('CALLEE == null ? CALLEE : CALLEE()');
 
 module.exports = function (t) {
   var types = t.types;
@@ -26,6 +27,12 @@ module.exports = function (t) {
           });
           path.replaceWith(safeMethodCall);
         }
+      },
+      SafeCallExpression(path) {
+        var safeCall = buildCall({
+          CALLEE: path.node.callee
+        });
+        path.replaceWith(safeCall);
       }
     }
   };
