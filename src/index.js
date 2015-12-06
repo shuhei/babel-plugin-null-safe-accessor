@@ -11,14 +11,14 @@ module.exports = function (t) {
   var types = t.types;
   return {
     visitor: {
-      SafeMemberExpression(path) {
+      SafeMemberExpression: function (path) {
         var safeReference = buildReference({
           OBJECT: path.node.object,
           PROPERTY: path.node.property
         });
         path.replaceWith(safeReference);
       },
-      CallExpression(path) {
+      CallExpression: function (path) {
         var callee = path.node.callee;
         if (callee.type === 'SafeMemberExpression') {
           var safeMethodCall = buildMethodCall({
@@ -29,7 +29,7 @@ module.exports = function (t) {
           path.replaceWith(safeMethodCall);
         }
       },
-      SafeCallExpression(path) {
+      SafeCallExpression: function (path) {
         var safeCall = buildCall({
           CALLEE: path.node.callee,
           ARGUMENTS: path.node.arguments
