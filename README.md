@@ -1,4 +1,4 @@
-# babel-plugin-null-safe-accessor
+# [Deprecated] babel-plugin-null-safe-accessor
 
 [![build status](https://img.shields.io/travis/shuhei/babel-plugin-null-safe-accessor/master.svg?style=flat-square)](https://travis-ci.org/shuhei/babel-plugin-null-safe-accessor)
 [![npm version](https://img.shields.io/npm/v/babel-plugin-null-safe-accessor.svg?style=flat-square)](https://www.npmjs.org/package/babel-plugin-null-safe-accessor)
